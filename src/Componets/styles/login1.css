@@ -1,24 +1,35 @@
+.login-page {
+    padding: 40px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh; /* Make the root element take up the full height of the viewport */
+    box-sizing: border-box; /* Include padding in the element's total height and width */
+    background: #ffffff; /* not happening as style.css has similar .login-page css and that is hindering with the login page */
+} 
+
 .login-container {
     max-width: 400px;
-    margin: 50px auto;
-    text-align: center;
-    background: #fff;
-    padding: 30px;
-    border-radius: 8px;
-    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+    width: 90%;
+    background: #ffffff;
+    border-radius: 10px;
+    box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
+    padding: 50px;
 }
 
-/* Title */
-h1 {
-    font-size: 22px;
+.Name {
+    text-align: center;
+    font-size: 35px;
     font-weight: bold;
     margin-bottom: 10px;
+    justify-content: center;
+    color: black
 }
 
 /* Subheading */
 p {
     font-size: 14px;
-    color: gray;
+    color: white;
     margin-bottom: 20px;
 }
 
@@ -28,6 +39,7 @@ label {
     text-align: left;
     font-weight: 600;
     margin-bottom: 5px;
+    color: black;
 }
 
 /* Input field container */

@@ -6,8 +6,9 @@
     height: 100vh;
     background: #f8fafc;
 }
+/* Commented it out because it was hindering with the styling wiht the login-container (- VB) */
 
-.login-container {
+/* .login-container {
     display: flex;
     max-width: 900px;
     width: 90%;
@@ -15,7 +16,7 @@
     border-radius: 10px;
     box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
     overflow: hidden;
-}
+} */
 
 /* Left Section */
 .left-section {
