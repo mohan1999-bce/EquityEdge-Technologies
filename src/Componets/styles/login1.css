@@ -1,33 +1,31 @@
+/* Center the login form on the page */
 .login-container {
     max-width: 400px;
     margin: 50px auto;
     text-align: center;
-    background: #fff;
+    background: #ffffff;
     padding: 30px;
-    border-radius: 8px;
-    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+    border-radius: 10px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
 }
 
-/* Title */
-h1 {
-    font-size: 22px;
+/* Company Title */
+.company-title {
+    font-size: 24px;
     font-weight: bold;
-    margin-bottom: 10px;
+    text-align: left;
+    margin-bottom: 15px;
+    color: #1a1a2e;
 }
 
-/* Subheading */
-p {
-    font-size: 14px;
-    color: gray;
-    margin-bottom: 20px;
-}
-
-/* Label styles */
+/* Labels */
 label {
     display: block;
     text-align: left;
     font-weight: 600;
+    font-size: 14px;
     margin-bottom: 5px;
+    color: #333;
 }
 
 /* Input field container */
@@ -35,10 +33,15 @@ label {
     display: flex;
     align-items: center;
     border: 1px solid #ddd;
-    border-radius: 5px;
-    padding: 8px;
+    border-radius: 6px;
+    padding: 10px;
     margin-bottom: 15px;
     background: #f9f9f9;
+    transition: all 0.3s ease-in-out;
+}
+
+.input-box:hover {
+    border-color: #2563eb;
 }
 
 /* Input field */
@@ -47,19 +50,26 @@ label {
     outline: none;
     flex: 1;
     background: transparent;
-    padding: 8px;
+    padding: 10px;
     font-size: 14px;
+    color: #333;
 }
 
-/* Icon styles */
+.input-box input::placeholder {
+    color: #aaa;
+}
+
+/* Icons */
 .icon {
     margin-right: 10px;
     color: gray;
+    font-size: 16px;
 }
 
 .icon-right {
     cursor: pointer;
     color: gray;
+    font-size: 16px;
 }
 
 /* Sign-in Button */
@@ -71,18 +81,11 @@ label {
     font-size: 16px;
     font-weight: bold;
     border: none;
-    border-radius: 5px;
+    border-radius: 6px;
     cursor: pointer;
     display: flex;
     align-items: center;
     justify-content: center;
+    transition: background 0.3s ease-in-out;
 }
 
-.login-button:hover {
-    background-color: #1e4bbf;
-}
-
-/* Right Arrow Icon */
-.arrow-icon {
-    margin-left: 5px;
-}
