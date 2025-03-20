@@ -1,29 +1,37 @@
 import React from "react";
 import "../styles/Navbar.css"; // Import CSS file
 
-const Navbar = () => {
+import {Link} from "react-router-dom";
+ 
+const Navbar = ({handLeLogout}) => {
+    
     return (
+        
+
         <nav className="navbar">
             {/* Logo Section */}
             <div className="logo">
                 <span className="chart-icon">📊</span>
-                <span className="brand-name">TradePro</span>
+
+                <span className="brand-name">Equity Edge</span>
+
             </div>
 
             {/* Navigation Links */}
             <div className="nav-links">
-                <a href="/">Features</a>
-                <a href="/">Pricing</a>
-                <a href="/">Login Templates</a>
-                <a href="/">Contact</a>
+
+                <Link to="/About">About</Link>
+                <Link to="/Portfolio">Portfolio</Link>
+                <Link to="/Market">Market</Link>
+                
+            </div>
+            <div className='navbar-right'>
+                <button onClick={()=>handLeLogout()} classname="navbar-button">Logout</button>
+
             </div>
 
-            {/* API Docs Button */}
-            <div className="api-docs">
-                <a href="/" className="api-button">
-                    API Docs ↗
-                </a>
-            </div>
+            
+
         </nav>
     );
 };

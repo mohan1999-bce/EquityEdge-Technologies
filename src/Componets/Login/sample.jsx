@@ -25,7 +25,9 @@ const Googin = ({ setUserInParentComponent }) => {
             
      
         else {
-            toast.error('Login failed! Please make sure your username and password are correct then retry.', {
+
+
+            toast.error('Login failed!', {
                         autoClose: false,
                     });
                 
