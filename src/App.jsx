@@ -1,12 +1,13 @@
 import { useState } from 'react'
 import Login from './Componets/Login/login';
 import Googin from './Componets/Login/sample';
-import TradeProLogin from './Componets/Login/Equity';
+// import TradeProLogin from './Componets/Login/Equity';
 import Navbar from './Componets/Login/Navbar';
 import About from './Componets/Login/About';
 import Market from './Componets/Login/Market';
 import Portfolio from './Componets/Login/Portfolio';
 import {BrowserRouter as Router,Routes,Route} from 'react-router-dom';
+import "./Componets/styles/global.css";
 
 
 //import './App.css'npm install vite --save-dev
