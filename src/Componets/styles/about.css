@@ -1,0 +1,33 @@
+.about-container {
+    text-align: center;
+    margin: 20px;
+  }
+  
+  .team {
+    display: flex;
+    justify-content: space-evenly;
+    align-items: center;
+    margin-top: 20px;
+  }
+  
+  .team-member {
+    flex-basis: 20%;
+    margin: 10px;
+    padding: 10px;
+  }
+  
+  .team-member img {
+    width: 100%;  /* Adjust the width as needed */
+    height: auto;
+    border: 2px solid #ccc; /* Optional border */
+  }
+  
+  .team-member h3 {
+    margin: 10px 0;
+  }
+  
+  .team-member p {
+    font-size: 0.9rem;
+    color: #666;
+  }
+  
