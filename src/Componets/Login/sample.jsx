@@ -36,48 +36,51 @@ const Googin = ({ setUserInParentComponent }) => {
             }
 
     return (
-        <div className="login-container">
-            <h1 className =" Name">Equity Edge</h1>
-        
+        <div className="login-page">
+            <div className="login-container">
+                <img src="./src/assets/equity-edge-logo.png" className="brand-logo" />
+                <h1 className ="Name">Equity Edge Technologies</h1>
+            
 
-            <form onSubmit={handleLogin}>
-                {/* Email Input */}
-                <label>Email</label>
-                <div className="input-box">
-                    <Mail className="icon" />
-                    <input
-                        type="text"
-                        placeholder="name@example.com"
-                        value={email}
-                        onChange={(e) => setEmail(e.target.value)}
-                        required
-                    />
-                </div>
+                <form onSubmit={handleLogin}>
+                    {/* Email Input */}
+                    <label>Email</label>
+                    <div className="input-box">
+                        <Mail className="icon" />
+                        <input
+                            type="text"
+                            placeholder="name@example.com"
+                            value={email}
+                            onChange={(e) => setEmail(e.target.value)}
+                            required
+                        />
+                    </div>
 
-                {/* Password Input */}
-                <label>Password</label>
-                <div className="input-box">
-                    <Lock className="icon" />
-                    <input
-                        type={showPassword ? "text" : "password"}
-                        placeholder="Enter password"
-                        value={password}
-                        onChange={(e) => setPassword(e.target.value)}
-                        required
-                    />
-                    {showPassword ? (
-                        <EyeOff className="icon-right" onClick={() => setShowPassword(false)} />
-                    ) : (
-                        <Eye className="icon-right" onClick={() => setShowPassword(true)} />
-                    )}
-                </div>
+                    {/* Password Input */}
+                    <label>Password</label>
+                    <div className="input-box">
+                        <Lock className="icon" />
+                        <input
+                            type={showPassword ? "text" : "password"}
+                            placeholder="Enter password"
+                            value={password}
+                            onChange={(e) => setPassword(e.target.value)}
+                            required
+                        />
+                        {showPassword ? (
+                            <EyeOff className="icon-right" onClick={() => setShowPassword(false)} />
+                        ) : (
+                            <Eye className="icon-right" onClick={() => setShowPassword(true)} />
+                        )}
+                    </div>
 
-                {/* Submit Button */}
-                <button type="submit" className="login-button">
-                    Sign in <ArrowRight className="arrow-icon" />
-                </button>
-            </form>
-            <ToastContainer />
+                    {/* Submit Button */}
+                    <button type="submit" className="login-button">
+                        Sign in <ArrowRight className="arrow-icon" />
+                    </button>
+                </form>
+                <ToastContainer />
+            </div>
         </div>
     );
 };

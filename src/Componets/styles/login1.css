@@ -1,31 +1,66 @@
-/* Center the login form on the page */
-.login-container {
-    max-width: 400px;
-    margin: 50px auto;
-    text-align: center;
+.login-page {
+    padding: 40px;
+    display: flex;
+    justify-content: center;
+    align-items: start;
+    height: 100vh; /* Make the root element take up the full height of the viewport */
+    box-sizing: border-box; /* Include padding in the element's total height and width */
     background: #ffffff;
-    padding: 30px;
-    border-radius: 10px;
-    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+    padding-top: 150px;
+} 
+
+.login-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    padding: 20px;
+    background: white;
+    border-radius: 8px;
+    box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
+    width: 470px;
 }
 
-/* Company Title */
-.company-title {
-    font-size: 24px;
+/* Form takes full width */
+form {
+    width: 100%;
+}
+
+.Name {
+    display: flex;
+    text-align: center;
+    font-size: 30px;
     font-weight: bold;
-    text-align: left;
-    margin-bottom: 15px;
-    color: #1a1a2e;
+    margin-top: 0px ;
+    margin-bottom: 10px;
+    justify-content: center;
+    color: black
 }
 
-/* Labels */
+/* Subheading */
+p {
+    font-size: 14px;
+    color: white;
+    margin-bottom: 20px;
+}
+
+.brand-logo {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 50px;
+    height: 50px;
+}
+
+/* Label styles */
 label {
     display: block;
     text-align: left;
     font-weight: 600;
-    font-size: 14px;
     margin-bottom: 5px;
-    color: #333;
+    color: black;
+    font-size: 16px;
 }
 
 /* Input field container */
@@ -33,15 +68,10 @@ label {
     display: flex;
     align-items: center;
     border: 1px solid #ddd;
-    border-radius: 6px;
-    padding: 10px;
+    border-radius: 5px;
+    padding: 8px;
     margin-bottom: 15px;
     background: #f9f9f9;
-    transition: all 0.3s ease-in-out;
-}
-
-.input-box:hover {
-    border-color: #2563eb;
 }
 
 /* Input field */
@@ -50,26 +80,19 @@ label {
     outline: none;
     flex: 1;
     background: transparent;
-    padding: 10px;
+    padding: 8px;
     font-size: 14px;
-    color: #333;
 }
 
-.input-box input::placeholder {
-    color: #aaa;
-}
-
-/* Icons */
+/* Icon styles */
 .icon {
     margin-right: 10px;
     color: gray;
-    font-size: 16px;
 }
 
 .icon-right {
     cursor: pointer;
     color: gray;
-    font-size: 16px;
 }
 
 /* Sign-in Button */
@@ -81,11 +104,18 @@ label {
     font-size: 16px;
     font-weight: bold;
     border: none;
-    border-radius: 6px;
+    border-radius: 5px;
     cursor: pointer;
     display: flex;
     align-items: center;
     justify-content: center;
-    transition: background 0.3s ease-in-out;
 }
 
+.login-button:hover {
+    background-color: #1e4bbf;
+}
+
+/* Right Arrow Icon */
+.arrow-icon {
+    margin-left: 5px;
+}

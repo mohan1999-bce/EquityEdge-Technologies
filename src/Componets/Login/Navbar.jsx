@@ -6,32 +6,19 @@ import {Link} from "react-router-dom";
 const Navbar = ({handLeLogout}) => {
     
     return (
-        
-
         <nav className="navbar">
-            {/* Logo Section */}
-            <div className="logo">
-                <span className="chart-icon">📊</span>
-
-                <span className="brand-name">Equity Edge</span>
-
+            <div className="brand-container">
+                <img className="brand-img" src="./src/assets/equity-edge-logo.png" />
+                <h1 className="brand-title">Equity Edge Technologies</h1>
             </div>
-
-            {/* Navigation Links */}
-            <div className="nav-links">
-
-                <Link to="/About">About</Link>
-                <Link to="/Portfolio">Portfolio</Link>
-                <Link to="/Market">Market</Link>
-                
+            <ul className="nav-links">
+                <li><Link to="/about">About</Link></li>
+                <li><Link to="/market">Market</Link></li>
+                <li><Link to="/portfolio">Portfolio</Link></li>
+            </ul>
+            <div className='logout-container'>
+                <button onClick={()=>handLeLogout()} className="logout-button">Logout</button>
             </div>
-            <div className='navbar-right'>
-                <button onClick={()=>handLeLogout()} classname="navbar-button">Logout</button>
-
-            </div>
-
-            
-
         </nav>
     );
 };

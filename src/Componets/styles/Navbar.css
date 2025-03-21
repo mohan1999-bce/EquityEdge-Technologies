@@ -3,34 +3,38 @@
     display: flex;
     justify-content: space-between;
     align-items: center;
-    padding: 15px 40px;
+    padding: 10px 40px;
     background: white;
     box-shadow: 0px 2px 10px rgba(0, 0, 0, 0.1);
 }
 
-/* Logo Section */
-.logo {
+.brand-container{
     display: flex;
     align-items: center;
+}
+
+.brand-title {
     font-size: 20px;
     font-weight: bold;
     color: black;
+    margin: 0px 20px;
 }
 
-.chart-icon {
-    font-size: 20px;
-    margin-right: 5px;
+.brand-img{
+    width: 40px;
+    height: 40px;
 }
 
-/* Navigation Links */
 .nav-links {
+    font-size: large;
+    list-style: none;
     display: flex;
     gap: 20px;
-}
+  }
 
 .nav-links a {
     text-decoration: none;
-    color: #1e3a8a;
+    color: #14285f;
     font-size: 16px;
     font-weight: 500;
     transition: color 0.3s ease;
@@ -40,8 +44,29 @@
     color: #2563eb;
 }
 
+/* Centering the logout button inside the container */
+.logout-container {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.logout-button {
+    width: 100%;
+    padding: 5px;
+    background-color: #2563eb;
+    color: white;
+    font-size: 14px;
+    font-weight: bold;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
 /* API Docs Button */
-.api-docs .api-button {
+/* .api-docs .api-button {
     padding: 8px 15px;
     border: 1px solid #cbd5e1;
     border-radius: 20px;
@@ -54,4 +79,4 @@
 
 .api-docs .api-button:hover {
     background: #f1f5f9;
-}
+} */
