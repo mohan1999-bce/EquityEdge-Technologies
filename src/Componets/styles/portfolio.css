@@ -1,0 +1,9 @@
+.portfolio-container {
+  text-align: center; /* Centering all content */
+  padding: 20px;
+}
+
+.portfolio-container img {
+  width: 80%; /* Adjust the width as needed */
+  margin: 20px 0; /* Space above and below the image */
+}
