@@ -3,7 +3,7 @@ def get_cnx_string():
     password ="admin"
     hostname=""
     port=""
-    dabase=""
-    return f"mysql+pymysql://<username>:<password>@<host>:<port>/<database>"
+    database=""
+    return f"mysql+pymysql://{username}:{password}@{hostname}:{port}/{database}"
 
 
