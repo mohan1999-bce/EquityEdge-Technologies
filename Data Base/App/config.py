@@ -1,9 +1,6 @@
-def get_cnx_string():
-    username ="admin"
-    password ="admin"
-    hostname=""
-    port=""
-    database=""
-    return f"mysql+pymysql://{username}:{password}@{hostname}:{port}/{database}"
-
-
+class Config:
+    username = 'xxxx'
+    pwd = 'xxxx'
+    hostname = 'xxxxaws.com'
+    port = 3306
+    database = 'xxxx'  
