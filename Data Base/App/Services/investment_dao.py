@@ -3,75 +3,101 @@ from App.Models.investment import Investment
 from App.Services.user_dao import get_balance, update_balance
 from App.Services.portfolio_dao import get_portfolio_by_id
 from datetime import date
+from App.Models.exceptions.queryexception import QueryException
+from app.models.investment import Investment
 
 
-def get_investment(investment_id):
-    with get_session() as session:
-        Investments = session.query(Investment).filter(Investment.id == investment_id).all()
-        return Investments
+from typing import List
+from datetime import date
+from sqlalchemy.orm.exc import NoResultFound, MultipleResultsFound
 
-def harvest_investment(investment_id):
-    with get_session() as session:
-        investment = session.query(Investment).filter(Investment.id == investment_id).all()
-        if len(investment) == 0:
-            return
-        investment = investment[0]
-        session.delete(investment)  # delete the investment from the database
-        session.commit()
-        if investment is None:
-            raise Exception(f"Investment with id {investment_id} does not exist")                     # raise error
-        investment.is_harvested = True
-        session.commit()
+def get_investments_by_portfolio(portfolio_id: int) -> List[Investment]:
+    try:
+        if not isinstance(portfolio_id, int):
+            raise Exception(f'Portfolio ID must be an int. Found {portfolio_id}')
+        return Investment.query.filter_by(portfolio_id=portfolio_id).all()
+    except Exception as e:
+        raise QueryException(f'Failed to get investments with portfolio ID {portfolio_id}: {str(e)}')
 
-def update_qty(investment_id, quantity):
-    with get_session() as session:
-        investment = session.query(Investment).filter(Investment.id == investment_id).all()
-        if len(investment) == 0:
-            raise Exception(f"Investment with id {investment_id} does not exist")                     # raise error
-        investment = investment[0]
+
+def get_investment_by_id(investment_id: int) -> Investment:
+    try:
+        if not isinstance(investment_id, int):
+            raise Exception(f'Investment ID must be an int. Found {investment_id}')
+        return Investment.query.filter_by(id=investment_id).one()
+    except NoResultFound:
+        raise QueryException(f'No investment exists with ID {investment_id}')
+    except MultipleResultsFound:
+        raise QueryException(f'Multiple investments found with the same ID {investment_id}')
+    except Exception as e:
+        raise QueryException(f'Failed to get investment with ID {investment_id}: {str(e)}')
+
+
+def harvest_investment(investment_id: int) -> None:
+    try:
+        if not isinstance(investment_id, int):
+            raise Exception(f'Investment ID must be an int. Found {investment_id}')
+        investment = get_investment_by_id(investment_id)
+        db.session.delete(investment)
+        db.session.commit()
+    except NoResultFound:
+        raise QueryException(f'No investment exists with ID {investment_id}')
+    except MultipleResultsFound:
+        raise QueryException(f'Multiple investments found with the same ID {investment_id}')
+    except Exception as e:
+        db.session.rollback()
+        raise QueryException(f'Failed to harvest investment with ID {investment_id}: {str(e)}')
+
+
+def update_qty(investment_id: int, quantity: int) -> None:
+    try:
+        if not isinstance(investment_id, int) or not isinstance(quantity, int):
+            raise Exception(f'Both investment ID and quantity must be integers. Found: ID={investment_id}, Qty={quantity}')
+        investment = get_investment_by_id(investment_id)
         investment.quantity = quantity
-        session.commit()
+        db.session.commit()
+    except NoResultFound:
+        raise QueryException(f'No investment exists with ID {investment_id}')
+    except MultipleResultsFound:
+        raise QueryException(f'Multiple investments found with the same ID {investment_id}')
+    except Exception as e:
+        db.session.rollback()
+        raise QueryException(f'Failed to update quantity for investment ID {investment_id}: {str(e)}')
 
-def create_new(portfolio_id, ticker, price, quantity):
-    # Check if the user has enogh balance to make the investment
-    portfolios = get_portfolio_by_id(portfolio_id)
-    if len(portfolios) == 0:
-        raise Exception(f"Portfolio with id {portfolio_id} does not exist")                     # raise error
-    userId = portfolios[0].userId
-    balance = get_balance(userId)
-    purchase_price = price * quantity
-    if balance < purchase_price:
-        raise Exception(f"You not have enough balance to make the investment")                  # raise error
-    
-    investment = Investment(portfolio_id=portfolio_id, quantity=quantity, ticker=ticker, price=price, date=date.today())
-    with get_session() as session:
-        session.add(investment)
-        session.commit()
-        # Update the user's balance
+
+def create_new(portfolio_id: int, ticker: str, price: float, quantity: int) -> None:
+    try:
+        portfolios = get_portfolio_by_id(portfolio_id)
+        if not portfolios:
+            raise Exception(f'Portfolio with ID {portfolio_id} does not exist')
+        userId = portfolios[0].userId
+        balance = get_balance(userId)
+        purchase_price = price * quantity
+        if balance < purchase_price:
+            raise Exception('Insufficient funds to complete the investment')
+        investment = Investment(portfolio_id=portfolio_id, ticker=ticker, price=price, quantity=quantity, date=date.today())
+        db.session.add(investment)
+        db.session.commit()
         update_balance(userId, balance - purchase_price)
-    
-def sell(investment_id, quantity, sale_price):
-    investment = get_investment_by_id(investment_id)
-    if len(investment) == 0:
-        raise Exception(f"Investment with id {investment_id} does not exist")                     # raise error
-    investment = investment[0]
-    available_quantity = investment.quantity
-    if available_quantity == 0:
-        raise Exception(f"You not have any quantity to sell")                                     # raise error
-    if investment.quantity < quantity:
-        raise Exception(f"You not have enough quantity to sell")                                 # raise error
-    proceeds = sale_price * quantity
-    with get_session() as session:
-        investment.quantity -= quantity
-        session.commit()
-    if quantity == available_quantity:
-        harvest_investment(investment_id)
-    else:
-        update_qty=available_quantity - quantity
-        update_qty(investment_id, update_qty)
-    proceeds = sale_price * quantity
-    portfolio = get_portfolio_by_id(investment.portfolio_id)
-    userId = portfolio.userId
-    old_balance = get_balance(userId)
-    update_balance(userId, old_balance + proceeds)  # Update the user's balance
-    
+    except Exception as e:
+        db.session.rollback()
+        raise QueryException('Failed to create new investment', e)
+
+
+def sell(investment_id: int, quantity: int, sale_price: float) -> None:
+    try:
+        investment = get_investment_by_id(investment_id)
+        available_quantity = investment.quantity
+        if quantity > available_quantity:
+            raise Exception(f'Requested quantity ({quantity}) exceeds available quantity ({available_quantity})')
+        if quantity == available_quantity:
+            harvest_investment(investment_id)
+        else:
+            update_qty(investment_id, available_quantity - quantity)
+        proceeds = quantity * sale_price
+        portfolio = get_portfolio_by_id(investment.portfolio_id)
+        userId = portfolio.userId
+        old_balance = get_balance(userId)
+        update_balance(userId, old_balance + proceeds)
+    except Exception as e:
+        raise QueryException(f'Failed to process sale for investment ID {investment_id}: {str(e)}')
