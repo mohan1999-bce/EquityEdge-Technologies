@@ -1,38 +1,28 @@
-from typing import List
-from App.extensions import db
-from App.Models.exceptions.QueryException import QueryException
-from App.Models.portfolio import Portfolio
-from sqlalchemy.exc import NoResultFound, MultipleResultsFound
+from flask import Blueprint, jsonify, request
+from app.services.portfolio_dao import get_portfolios_by_user, create_new
+from app.models.user import User
 
-def create_new(name: str, strategy: str, userId: int) -> None:
-    try:
-        if not isinstance(name, str) or not isinstance(strategy, str) or not isinstance(userId, int):
-            raise Exception('Invalid input: Portfolio name and strategy must be text, user ID must be a number')
-        portfolio = Portfolio(name=name, strategy=strategy, userId=userId)
-        db.session.add(portfolio)
-        db.session.commit()
-    except Exception as e:
-        db.session.rollback()
-        raise QueryException('Unable to create new portfolio. Please try again.', e)
+portfolio_bp = Blueprint('portfolio', __name__)
 
-def get_portfolios_by_user(userId: int) -> List[Portfolio]:
+@portfolio_bp.route('/get-all/<int:userId>')
+def get_portfolios_for_user(userId):
     try:
-        if not isinstance(userId, int):
-            raise QueryException(f'User ID must be a number, received: {userId}')
-        
-        portfolios = Portfolio.query.filter_by(userId=userId).all()
-        return portfolios
+        # First check if user exists
+        user = User.query.get(userId)
+        if not user:
+            return jsonify({"message": f"User with ID {userId} not found"}), 404
+            
+        portfolios = get_portfolios_by_user(userId)
+        ports_dict = [port.to_dict() for port in portfolios]
+        return jsonify(ports_dict), 200
     except Exception as e:
-        raise QueryException(f'Failed to retrieve portfolios for user #{userId}. Please try again.', e)
-
-def get_portfolio_by_id(id: int) -> Portfolio:
+        return jsonify({"message": f"Failed to get portfolios for user with ID: {userId}. Details: {str(e)}"}), 500
+    
+@portfolio_bp.route('/create-new', methods = ['POST'])
+def create_new_portfolio():
     try:
-        if not isinstance(id, int):
-            raise Exception(f'Portfolio ID must be a number, received: {id}')
-        return Portfolio.query.filter_by(id=id).one()
-    except NoResultFound as e:
-        raise QueryException(f'Cannot find portfolio #{id}. This portfolio may have been deleted.', e)
-    except MultipleResultsFound as e:
-        raise QueryException(f'System error: Multiple records found for portfolio #{id}. Please contact support.', e)
+        port_json = request.get_json()
+        create_new(port_json.get('name'), port_json.get('strategy'), port_json.get('userId'))
+        return '', 201
     except Exception as e:
-        raise QueryException(f'Failed to retrieve portfolio #{id}. Please try again.', e)
+        return jsonify({"message": f"Failed to create a new portfolio: {str(e)}"})
