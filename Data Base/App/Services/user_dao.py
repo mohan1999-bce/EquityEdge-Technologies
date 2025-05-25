@@ -4,6 +4,8 @@ from typing import List
 from App.extensions import db
 from App.Models.user import User
 
+
+
 def create_user(username:str, password:str, balance:float)-> None:
     try:
         balance = float(balance)
@@ -90,4 +92,3 @@ def update_balance(userId: int, updated_balance: float) -> None:
         raise QueryException(f'More than one user exists with ID {userId}', e)
     except Exception as e:
         db.session.rollback()
-        raise QueryException(f'Failed to update balance for user with ID {userId}', e)

@@ -3,6 +3,7 @@ from typing import List
 from App.Models.exceptions.QueryException import QueryException
 from App.Models.investment import Investment
 from App.Services.portfolio_dao import get_portfolio_by_id
+
 from App.Services.user_dao import get_balance, update_balance
 from sqlalchemy.exc import NoResultFound, MultipleResultsFound
 from App.extensions import db
@@ -60,6 +61,11 @@ def update_qty(investmentId: int, qty: int) -> None:
         db.session.rollback()
         raise QueryException(f'Failed to update quantity for investment #{investmentId}. Please try again.', e)
 
+from datetime import date
+from App.Models.exceptions.queryexception import QueryException
+from app.models.investment import Investment
+
+
 def purchase(porftolio_id, ticker, price, quantity):
     try:
         userId: int = get_portfolio_by_id(porftolio_id).userId.value
@@ -90,3 +96,5 @@ def sell(investmentId, qty, sale_price):
     userId: int = portfolio.userId
     old_balance = get_balance(userId)
     update_balance(userId, old_balance + proceeds)
+
+
