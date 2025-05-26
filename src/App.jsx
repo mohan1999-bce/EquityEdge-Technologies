@@ -1,13 +1,12 @@
 import { useState } from 'react'
-import Login from './Componets/Login/login';
-import Googin from './Componets/Login/sample';
+import Googin from './Componets/Login';
 // import TradeProLogin from './Componets/Login/Equity';
-import Navbar from './Componets/Login/Navbar';
-import About from './Componets/Login/About';
-import Market from './Componets/Login/Market';
-import Portfolio from './Componets/Login/Portfolio';
+import Navbar from './Componets/Navbar';
+import About from './Componets/About';
+import Market from './Componets/Market';
+import Portfolio from './Componets/Portfolio';
 import {BrowserRouter as Router,Routes,Route} from 'react-router-dom';
-import "./Componets/styles/global.css";
+import "./styles/global.css";
 
 
 //import './App.css'npm install vite --save-dev
@@ -15,15 +14,16 @@ import "./Componets/styles/global.css";
 function App(){
   const [user, setUser] = useState({
    user:'',
+   userId: -1,
    isLoggedIn:false
 
   });
   const handLeLogout =()=>{
-    setUser((prevState)=>({
-
-      ...prevState,
-      isLoggedIn:false
-    }));
+    setUser({
+      user: '',
+      userId: -1,
+      isLoggedIn: false
+    })
   }
 
 
@@ -32,16 +32,15 @@ function App(){
       <Router>
        {user.isLoggedIn && <Navbar handLeLogout={handLeLogout} />}
        <Routes>
-         <Route path="/About" element={user.isLoggedIn ? <About /> : <Googin setUserInParentComponent={setUser} />} />
-         <Route path="/" element={user.isLoggedIn ? <Portfolio /> : <Googin setUserInParentComponent={setUser} />} />
-         <Route path="/Market" element={user.isLoggedIn ? <Market /> : <Googin setUserInParentComponent={setUser} />} />
-         <Route path="/Portfolio" element={user.isLoggedIn ? <Portfolio /> : <Googin setUserInParentComponent={setUser} />} />
+         <Route path="/About" element={user.isLoggedIn ? <About /> : <Googin setUser={setUser} />} />
+         <Route path="/" element={user.isLoggedIn ? <Portfolio /> : <Googin setUser={setUser} />} />
+         <Route path="/Market" element={user.isLoggedIn ? <Market /> : <Googin setUser={setUser} />} />
+         <Route path="/Portfolio" element={user.isLoggedIn ? <Portfolio /> : <Googin setUser={setUser} />} />
        </Routes>
      </Router>
-     
-      
+
      </>
-      
+
 
   )
 }

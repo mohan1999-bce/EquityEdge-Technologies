@@ -1,39 +1,47 @@
-import React, { useState } from "react";
-/*import { useNavigate } from "react-router-dom"; // For navigation*/
+import { useState } from "react";
+import { useNavigate } from "react-router-dom"; // For navigation
+import PropTypes from 'prop-types';
 
-import "../styles/login1.css"; // Import CSS file
+import "../styles/login.css"; // Import CSS file
 import { Mail, Lock, Eye, EyeOff, ArrowRight } from "lucide-react";
 import { ToastContainer, toast } from 'react-toastify';
-const Googin = ({ setUserInParentComponent }) => {
-    const [email, setEmail] = useState("");
+
+const Googin = ({ setUser }) => {
+    const [username, setUsername] = useState("");
     const [password, setPassword] = useState("");
     const [showPassword, setShowPassword] = useState(false);
     // For navigation
+    
+    const navigate = useNavigate();
 
     const handleLogin = (event) => {
         event.preventDefault();
-
-        // Hardcoded admin credentials check
-        if (email === "admin" && password === "admin")
-            {
-                setUserInParentComponent((prevState) => ({
+        const base_url = 'http://127.0.0.1:5000'
+        const url = `${base_url}/user/authenticate-user/${username}/${password}`
+        fetch(url).then(res => {
+            if (!res.ok) {
+                setUser((prevState) => ({
                     ...prevState,
-                    user: email,
-                    isLoggedIn: true,
+                    isLoggedIn: false,
                 }));
+                toast.error('Login failed! Please make sure your username and password are correct then retry.', {
+                    autoClose: false,
+                });
+            } else {
+                res.json().then(data => {
+                    setUser((prevState) => ({
+                        ...prevState,
+                        user: data.username,
+                        userId: data.id,
+                        isLoggedIn: true,
+                    }));
+                    navigate('/home');
+                })
             }
-            
-     
-        else {
-
-
-            toast.error('Login failed!', {
-                        autoClose: false,
-                    });
-                
-                    
-                }
-            }
+        }).catch((error) => {
+            toast.error(`Failed to authenticate user ${username}: ${error}`)
+        })
+    }
 
     return (
         <div className="login-page">
@@ -50,8 +58,8 @@ const Googin = ({ setUserInParentComponent }) => {
                         <input
                             type="text"
                             placeholder="name@example.com"
-                            value={email}
-                            onChange={(e) => setEmail(e.target.value)}
+                            value={username}
+                            onChange={(e) => setUsername(e.target.value)}
                             required
                         />
                     </div>
@@ -83,6 +91,10 @@ const Googin = ({ setUserInParentComponent }) => {
             </div>
         </div>
     );
-};
+}
+
+Googin.propTypes = {
+    setUser: PropTypes.func.isRequired,
+}
 
 export default Googin;
