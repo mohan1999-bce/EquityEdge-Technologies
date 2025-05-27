@@ -1,9 +1,77 @@
 .portfolio-container {
-  text-align: center; /* Centering all content */
-  padding: 20px;
+    padding: 20px;
 }
 
-.portfolio-container img {
-  width: 80%; /* Adjust the width as needed */
-  margin: 20px 0; /* Space above and below the image */
+.portfolio-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 20px;
+}
+
+.portfolio-table th,
+.portfolio-table td {
+    border: 1px solid #ccc;
+    padding: 10px;
+    text-align: left;
+}
+
+.portfolio-table th {
+    background-color: #f4f4f4;
+    font-weight: bold;
+}
+
+.portfolio-table tr:nth-child(even) {
+    background-color: #f9f9f9;
+}
+
+.portfolio-table tr:hover {
+    background-color: #f1f1f1;
+}
+
+.investments-container {
+    padding: 20px;
+}
+
+.investments-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 20px;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+.investments-table th,
+.investments-table td {
+    border: 1px solid #ccc;
+    padding: 10px;
+    text-align: left;
+}
+
+.investments-table th {
+    background-color: #e9f2fb;
+    font-weight: bold;
+    color: #333;
+}
+
+.investments-table tr:nth-child(even) {
+    background-color: #f7fbff;
+}
+
+.investments-table tr:hover {
+    background-color: #eef6fc;
+    cursor: pointer;
+    transition: background-color 0.2s ease;
+}
+
+.investments-table .action-button {
+    background-color: #333;
+    color: white;
+    border: none;
+    padding: 6px 12px;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 0.9rem;
+}
+
+.investments-table .action-button:hover {
+    background-color: #333;
 }
