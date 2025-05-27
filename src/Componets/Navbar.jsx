@@ -2,9 +2,9 @@ import React from "react";
 import "../styles/Navbar.css"; // Import CSS file
 
 import {Link} from "react-router-dom";
- 
-const Navbar = ({handLeLogout}) => {
-    
+
+const Navbar = ({handleLogout}) => {
+
     return (
         <nav className="navbar">
             <div className="brand-container">
@@ -13,11 +13,12 @@ const Navbar = ({handLeLogout}) => {
             </div>
             <ul className="nav-links">
                 <li><Link to="/about">About</Link></li>
+                <li><Link to="/home">Home</Link></li>
                 <li><Link to="/market">Market</Link></li>
                 <li><Link to="/portfolio">Portfolio</Link></li>
             </ul>
             <div className='logout-container'>
-                <button onClick={()=>handLeLogout()} className="logout-button">Logout</button>
+                <button onClick={()=>handleLogout()} className="logout-button">Logout</button>
             </div>
         </nav>
     );
